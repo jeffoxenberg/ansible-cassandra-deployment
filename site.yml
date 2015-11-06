@@ -1,0 +1,22 @@
+---
+# assign roles to host groups
+
+# common 
+- hosts: all
+  roles:
+     - common
+
+# opscenter node (should be only ONE)
+- hosts: opscenter
+  roles:
+     - opscenter
+
+# cassandra nodes
+- hosts: cassandra
+  roles:
+     - cassandra
+
+# load generators (C* stress) for testing
+- hosts: loadgen
+  roles:
+     - loadgen

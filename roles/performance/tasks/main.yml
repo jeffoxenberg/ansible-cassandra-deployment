@@ -1,0 +1,19 @@
+---
+
+- name: update sysctl.conf
+  copy: src=sysctl.conf dest=/etc/sysctl.conf
+  notify: reload sysctl params
+
+- name: reference tuning script
+  lineinfile: dest=/etc/rc.local insertafter=EOF mode=u+x state=present line=/etc/tuned.sh
+
+- name: disk and cpu tuning
+  copy: src=tuned.sh dest=/etc/tuned.sh mode=u+x
+  notify: source rc.local
+
+- name: modify limits
+  copy: src=limits.conf dest=/etc/limits.conf
+
+- name: modify grub params
+  replace: dest=/etc/default/grub backup=yes regexp='quiet\"$' replace='quiet intel_idle.max_cstate=0 processor.max_cstate=0"'
+  notify: grub mkconfig

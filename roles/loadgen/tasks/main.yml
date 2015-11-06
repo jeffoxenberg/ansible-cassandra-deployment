@@ -1,0 +1,10 @@
+---
+- name: create cassandra dir
+  file: path=/opt/cassandra state=directory mode=0755
+
+- name: download apache cassandra
+  get_url: url=http://apache.cs.utah.edu/cassandra/{{ cassandra_ver }}/apache-cassandra-{{ cassandra_ver }}-bin.tar.gz dest=/root/apache-cassandra-{{ cassandra_ver }}-bin.tar.gz
+
+- name: untar cassandra
+  unarchive: src=/root/apache-cassandra-{{ cassandra_ver }}-bin.tar.gz dest=/opt/cassandra copy=no
+

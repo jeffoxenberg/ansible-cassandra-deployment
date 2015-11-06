@@ -1,0 +1,26 @@
+---
+# Common tasks
+
+- name: add motd
+  template: src=motd.j2 dest=/etc/motd owner=root group=wheel mode=0644
+
+- name: update hostsfile
+  template: src=hosts.j2 dest=/etc/hosts 
+  ignore_errors: yes
+
+- name: disable selinux
+  lineinfile: dest=/etc/selinux/config regexp=^SELINUX= line=SELINUX=disabled
+
+- name: disable firwalld
+  service: name=firewalld state=stopped enabled=no
+
+- name: add yum proxy
+  lineinfile: dest=/etc/yum.conf insertafter=EOF line=proxy={{ httpproxy }}
+
+- name: install java, epel, python-httplib2 
+  yum: name={{ item }} state=latest
+  with_items:
+    - java
+    - epel-release
+    - python-httplib2
+

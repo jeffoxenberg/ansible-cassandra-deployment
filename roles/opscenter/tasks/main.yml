@@ -1,0 +1,29 @@
+---
+- name: add dse repo
+  template: src=datastax_yum_repo.j2 dest=/etc/yum.repos.d/datastax.repo
+
+- name: install opscenter
+  yum: name=opscenter state=latest enablerepo=datastax
+
+- name: start opscenterd
+  service: name=opscenterd state=started
+
+- name: test connectivity
+  uri: url=http://localhost:8888/cluster-configs
+
+# thx @benofben for correct provision params
+- name: copy provisioning yaml
+  template: src=provision.j2 dest=/root/provision.json
+
+# returns a request id
+- name: start provisioning via opscenter
+  shell: curl -X POST http://localhost:8888/provision -d @/root/provision.json
+  register: provision_token
+
+# poll to check the request
+- name: poll every 30s for completion, wait 15m
+  action: shell curl http://localhost:8888/request/{{ provision_token.stdout }}/status
+  register: result
+  until: result.stdout.find("success") != -1
+  retries: 30
+  delay: 30 

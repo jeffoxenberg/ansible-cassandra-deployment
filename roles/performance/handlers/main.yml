@@ -1,0 +1,10 @@
+---
+
+- name: reload sysctl params
+  shell: sysctl -p
+
+- name: source rc.local
+  shell: source /etc/rc.local
+
+- name: grub mkconfig
+  shell: grub2-mkconfig --output=/boot/grub2/grub.cfg

@@ -1,0 +1,6 @@
+group_vars/all
+cobbler.py
+hosts
+cobbler.ini
+ansible.cfg
+roles/common/templates/hosts.j2.1
