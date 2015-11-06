@@ -6,7 +6,7 @@ DataStax OpsCenter is installed via yum, and then Cassandra is deployed via the 
 
 ## Configuration
 
-Create ansible inventory file (hosts)
+Create ansible inventory file (`hosts`)
 
     [opscenter]
     host1
@@ -18,16 +18,16 @@ Create ansible inventory file (hosts)
     host5
     host6
 
-Alternatively, use cobbler.py/cobbler.ini to link to your cobbler deployment, and create opscenter, cassandra, and loadgen profiles.  Symlink cobbler.py to hosts.
+Alternatively, use [cobbler.py](http://docs.ansible.com/ansible/intro_dynamic_inventory.html#example-the-cobbler-external-inventory-script) to link to your cobbler deployment, and create opscenter, cassandra, and loadgen profiles.  Symlink cobbler.py to hosts.
 
-Create group_vars/all
+Create `group_vars/all`
 
     httpproxy: http://proxy.example.com:8080
     dse_repo_un: some.username
     dse_repo_pw: some.password
     machine_un: root
     machine_pw: password
-
+    cassandra_ver: apache c* ver for load generators
 
 In `roles/opscenter/templates/provision.j2`, edit node information to match your environment *(TODO: have Ansible do this)*
 
@@ -56,4 +56,5 @@ Get ssh fingerprints like this:
 - [ ] Better provision.yaml templating
 - [ ] Selectively apply cassandra setting changes based on machine type
 - [ ] Integrate c*-stress scripts
-
+- [ ] Increase idempotence, check if cluster already created
+- [ ] Test larger clusters
