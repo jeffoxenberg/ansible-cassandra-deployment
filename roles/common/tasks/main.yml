@@ -24,3 +24,7 @@
     - epel-release
     - python-httplib2
 
+- name: get ssh fingerprint
+  shell: ssh-keyscan -p 22 -t rsa {{ ansible_default_ipv4.address }} > /tmp/key.pub 2> /dev/null && ssh-keygen -lf /tmp/key.pub | cut -f 2 -d ' '
+  register: ssh_fingerprint
+
