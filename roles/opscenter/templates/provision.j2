@@ -127,7 +127,7 @@
         {
             "location": "",
             "node_information": [
-                {% for node in groups['cassandra'] %}{
+                {% for node in groups['opscenter'] %}{
                     "public_ip": "{{ hostvars[node].ansible_default_ipv4.address }}",
                     "private_ip": "{{ hostvars[node].ansible_default_ipv4.address }}",
                     "node_type": "cassandra"
@@ -139,8 +139,9 @@
         }
     ],
     "accepted_fingerprints": {
-        {% for node in groups['cassandra'] %}"{{ hostvars[node].ansible_default_ipv4.address }}": "{{ hostvars[node].ssh_fingerprint.stdout }}"{% if not loop.last %},{% endif %}
-    {% endfor %}
+        {% for node in groups['opscenter'] %}"{{ hostvars[node].ansible_default_ipv4.address }}": "{{ hostvars[node].ssh_fingerprint.stdout }}"{% if not loop.last %},{% endif %}
+
+        {% endfor %}
 
     }
 }
